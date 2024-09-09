@@ -21,6 +21,16 @@ class Log(db.Model):
 with app.app_context():
     db.create_all()
 
+#    prueba1 = Log(texto='Mensaje de prueba 1')
+#    prueba2 = Log(texto='aqui enviando mensajes')
+
+#    db.session.add(prueba1)
+#    db.session.add(prueba2)
+#    db.session.commit()
+
+# funcion para ordenar los registros por fecha y hora
+def ordenar_por_fecha_y_hora(registros):
+    return sorted(registros, key=lambda x: x.fecha_y_hora, reverse = True)
 
 @app.route('/')
 #def hola_mundo():
@@ -29,7 +39,8 @@ with app.app_context():
 def index():
     # obtener todos los registros de la base de datos
     registros = Log.query.all()
-    return render_template('index.html', registros=registros)
+    registros_ordenados = ordenar_por_fecha_y_hora(registros)
+    return render_template('index.html', registros=registros_ordenados)
 
 mensajes_log = []
 #Funcion para agregar mensajes y guardar en la base de datos
